@@ -55,6 +55,7 @@ app.get('/city/:city', (req, res) => {
 	let baths = req.query.baths;
 	let price = req.query.price;
 	let sqRange = req.query.sqRange;
+	let type = req.query.type;
 	let additionalQuery = '';
 	if (mlsNumber !== '') {
 		additionalQuery = additionalQuery.concat('&mlsNumber=', mlsNumber);
@@ -81,6 +82,9 @@ app.get('/city/:city', (req, res) => {
 	};
 	if (sqRange[1] !== '10000') {
 		additionalQuery = additionalQuery.concat('&maxSqft=', sqRange[1]);
+	};
+	if (type === 'sale' || type === 'lease' ) {
+		additionalQuery = additionalQuery.concat('&type=', type);
 	};
 	axios
 		.get(`${process.env.API_DOMAIN}/listings?city=${city}&pageNum=${pageNum}&resultsPerPage=${resultsPerPage}&sortBy=${sortBy}${additionalQuery}`, {
